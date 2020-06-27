@@ -22,8 +22,6 @@ export async function getById(
 
 export async function post(
   body: ControllerHelper.Body,
-  queryString: ControllerHelper.QueryString,
-  params: ControllerHelper.Params
 ): Promise<ProductView.ProductResponse> {
   const schema = Joi.object().keys({
     id: Joi.string().optional(),
@@ -40,11 +38,7 @@ export async function post(
   return ProductView.singleView(result)
 }
 
-export async function getAll(
-  body: ControllerHelper.Body,
-  queryString: ControllerHelper.QueryString,
-  params: ControllerHelper.Params
-): Promise<ProductView.ProductResponse[]> {
+export async function getAll(): Promise<ProductView.ProductResponse[]> {
   const result = await ProductService.findAll()
   return ProductView.listView(result)
 }

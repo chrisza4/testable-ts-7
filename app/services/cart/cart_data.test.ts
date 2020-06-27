@@ -1,4 +1,3 @@
-import * as MongoDb from 'mongodb'
 import * as TestHelper from '../../test/test_helper'
 import * as CartData from './cart_data'
 import * as ProductData from '../product/product_data'
