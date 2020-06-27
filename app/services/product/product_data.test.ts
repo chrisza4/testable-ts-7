@@ -1,6 +1,7 @@
 import * as MongoDb from 'mongodb'
 import * as TestHelper from '../../test/test_helper'
 import * as ProductData from './product_data'
+import * as ProductTestHelper from './product_test_helper'
 import { Product } from './product_type'
 
 describe('ProductData', () => {
@@ -25,18 +26,9 @@ describe('ProductData', () => {
   })
 
   it('can list all product', async () => {
-    const generateProduct = (): Product => {
-      return {
-        id: new MongoDb.ObjectID(),
-        sku: 'aaa',
-        description: 'my product',
-        name: 'product',
-        unitPrice: 100
-      }
-    }
     const products = [
-      generateProduct(),
-      generateProduct()
+      ProductTestHelper.generateMockProduct(),
+      ProductTestHelper.generateMockProduct()
     ]
     await Promise.all(products.map(
       p => ProductData.insert(p)

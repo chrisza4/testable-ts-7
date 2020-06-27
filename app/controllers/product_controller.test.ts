@@ -4,16 +4,7 @@ import * as ProductService from '../services/product/product_service'
 import * as ProductController from './product_controller'
 import * as ProductType from '../services/product/product_type'
 import { ObjectId } from 'mongodb'
-
-function generateMockProduct(): ProductType.Product {
-  return {
-    sku: '111',
-    name: 'my product',
-    description: 'mock product',
-    id: new ObjectId(),
-    unitPrice: 100
-  }
-}
+import * as ProductTestHelper from '../services/product/product_test_helper'
 
 describe('getById', () => {
   it('return not found if not provide id', async () => {
@@ -26,7 +17,7 @@ describe('getById', () => {
   })
 
   it('return product value provided id', async () => {
-    const mockProduct = generateMockProduct()
+    const mockProduct = ProductTestHelper.generateMockProduct()
     mocked(ProductService).getById.mockResolvedValue(mockProduct)
     const product = await ProductController.getById({ }, { }, { id: 3 })
     expect(product).toEqual(mockProduct)
@@ -55,7 +46,7 @@ describe('post', () => {
   })
 
   it('return product value for invalid input', async () => {
-    const mockProduct = generateMockProduct()
+    const mockProduct = ProductTestHelper.generateMockProduct()
     mocked(ProductService).insert.mockResolvedValue(mockProduct)
     const product = await ProductController.post({
       ...mockProduct,
@@ -67,9 +58,9 @@ describe('post', () => {
   describe('list', () => {
     it('return list of products', async () => {
       const mockProducts = [
-        generateMockProduct(),
-        generateMockProduct(),
-        generateMockProduct()
+        ProductTestHelper.generateMockProduct(),
+        ProductTestHelper.generateMockProduct(),
+        ProductTestHelper.generateMockProduct()
       ]
       mocked(ProductService).findAll.mockResolvedValue(mockProducts)
       const products = await ProductController.getAll({}, {}, {})
