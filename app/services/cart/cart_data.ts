@@ -11,7 +11,7 @@ export async function create (now = new Date()): Promise<Cart> {
     created: now,
     items: []
   }
-  const result = await mongoConnection.collection('carts').insertOne(cart)
+  await mongoConnection.collection('carts').insertOne(cart)
   return cart
 }
 
@@ -33,6 +33,9 @@ export async function getById(id: MongoIdParams): Promise<Cart | null> {
 
 export async function add (cartId: MongoIdParams, productId: MongoIdParams): Promise<Cart | null> {
   const mongoConnection = await MongoConnection.getClient()
+  if (!(await cartExists(cartId))) {
+    return null
+  }
   await mongoConnection.collection('cart_items').findOneAndUpdate({
     cartId, productId
   }, {
@@ -40,11 +43,15 @@ export async function add (cartId: MongoIdParams, productId: MongoIdParams): Pro
       quantity: 1
     }
   }, { upsert: true })
+
   return getById(cartId)
 }
 
 export async function remove (cartId: MongoIdParams, productId: MongoIdParams): Promise<Cart | null> {
   const mongoConnection = await MongoConnection.getClient()
+  if (!(await cartExists(cartId))) {
+    return null
+  }
   await mongoConnection.collection('cart_items').findOneAndUpdate({
     cartId, productId
   }, {
@@ -61,4 +68,13 @@ export async function remove (cartId: MongoIdParams, productId: MongoIdParams): 
   })
 
   return getById(cartId)
+}
+
+async function cartExists (cartId: MongoIdParams): Promise<boolean> {
+  const mongoConnection = await MongoConnection.getClient()
+  if (!MongoDb.ObjectId.isValid(cartId)) {
+    return false
+  }
+  const count = await mongoConnection.collection('carts').count({ id: cartId })
+  return count > 0
 }
