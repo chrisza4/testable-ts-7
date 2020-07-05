@@ -1,3 +1,4 @@
+import * as MongoDb from 'mongodb'
 import * as TestHelper from '../../test/test_helper'
 import * as CartData from './cart_data'
 import * as ProductData from '../product/product_data'
@@ -19,15 +20,15 @@ describe('ProductData', () => {
       expect(cart.created).toEqual(now)
       expect(cart.items.length).toEqual(0)
 
-      const savedCart = await CartData.getById(String(cart.id))
-      expect(savedCart?.id).toEqual(cart.id)
+      const savedCart = await CartData.getById(cart.id)
+      expect(savedCart?.id.equals(cart.id)).toBeTruthy()
       expect(savedCart?.hash).toEqual(cart.hash)
     })
   })
 
   describe('getById', () => {
     it('Return null on invalid id', async () => {
-      const result = await CartData.getById('aaa')
+      const result = await CartData.getById(new MongoDb.ObjectId())
       expect(result).toBeNull()
     })
   })

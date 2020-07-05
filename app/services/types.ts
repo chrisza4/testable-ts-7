@@ -1,3 +1,3 @@
 import * as MongoDb from 'mongodb'
 
-export type MongoIdParams = MongoDb.ObjectId | string
+export type MongoIdParams = MongoDb.ObjectId
