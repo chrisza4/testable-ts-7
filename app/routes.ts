@@ -1,6 +1,7 @@
 import * as Express from 'express'
 import * as ProductController from './controllers/product_controller'
 import * as CartController from './controllers/cart_controller'
+import * as CheckoutController from './controllers/checkout_controller'
 
 export function setupRoutes(app: Express.Express): void {
   app.get('/product/:id', ProductController.getByIdHandler)
@@ -11,4 +12,6 @@ export function setupRoutes(app: Express.Express): void {
   app.post('/cart', CartController.post)
   app.put('/cart/:cartId/product/:productId', CartController.addItemHandler)
   app.delete('/cart/:cartId/product/:productId', CartController.removeItemHandler)
+
+  app.get('/checkout/:cartId', CheckoutController.getByCartIdHandler)
 }

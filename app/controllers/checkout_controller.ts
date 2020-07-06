@@ -36,3 +36,5 @@ function parseGetByCartIdParams(params: ControllerHelper.Params): getCartByIdPar
   }
   return validationResult.value as getCartByIdParams
 }
+
+export const getByCartIdHandler = ControllerHelper.createExpressHandler(getByCartId)
