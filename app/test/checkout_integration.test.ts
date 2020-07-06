@@ -3,9 +3,10 @@ import App from '../server'
 import * as ProductData from '../services/product/product_data'
 import * as ProductTestHelper from '../services/product/product_test_helper'
 import * as CartData from '../services/cart/cart_data'
+import * as TestHelper from './test_helper'
 
 
-describe('/checkout', () => {
+TestHelper.testWithDb('/checkout', () => {
   it('Can checkout', async () => {
     const cart = await CartData.create()
     const product1 = await ProductData.insert(ProductTestHelper.generateMockProduct({ sku: 'product1', unitPrice: 500 }))

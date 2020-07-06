@@ -12,3 +12,15 @@ export async function close (): Promise<void> {
   return MongoConnection.close()
 }
 
+
+export function testWithDb(describeText: string, fn: () => void): void {
+  return describe(describeText, () => {
+    beforeEach(() => {
+      return cleanDb()
+    })
+
+    afterAll(() => close())
+
+    fn()
+  })
+}
