@@ -8,7 +8,8 @@ export function generateCheckoutAbleCart(props: Partial<CheckoutAbleCart>): Chec
     items: [
       generateCheckoutItem({ quantity: 3, unitPrice: 300 }),
       generateCheckoutItem({ quantity: 4, unitPrice: 100 })
-    ]
+    ],
+    ...props
   }
 }
 
