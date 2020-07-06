@@ -5,12 +5,12 @@ describe('calculatePrice', () => {
   it('Can calculate normal price', () => {
     const cartToCheckout = CheckoutTestHelper.generateCheckoutAbleCart({
       items: [
-        CheckoutTestHelper.generateCheckoutItem({ unitPrice: 500, quantity: 2 }),
-        CheckoutTestHelper.generateCheckoutItem({ unitPrice: 100, quantity: 8 }),
+        CheckoutTestHelper.generateCheckoutItem({ unitPrice: 5000, quantity: 1 }),
+        CheckoutTestHelper.generateCheckoutItem({ unitPrice: 4999, quantity: 1 }),
       ]
     })
     const actual = CheckoutDomain.calculatePrice(cartToCheckout)
-    expect(actual).toEqual(1800)
+    expect(actual).toEqual(9999)
   })
 
   it('Can caculate promotion price', () => {
