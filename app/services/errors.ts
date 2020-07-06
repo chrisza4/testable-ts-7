@@ -1,6 +1,6 @@
-class InvalidIdError extends Error {
-  constructor(message = 'Invalid Id') {
+export class InternalDataInconsistencyError extends Error {
+  constructor(message = 'DataInconsistencyError') {
     super(message)
-    this.name = 'InvalidIdError'
+    this.name = 'InternalDataInconsistencyError'
   }
 }

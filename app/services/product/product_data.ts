@@ -7,6 +7,15 @@ export async function getById (id: MongoDb.ObjectId | string): Promise<Product |
   return client.collection('products').findOne<Product>({ id })
 }
 
+export async function findByIds (ids: MongoDb.ObjectId[]): Promise<Product[]> {
+  const client = await MongoConnection.getClient()
+  return client.collection('products').find({
+    id: {
+      $in: ids
+    }
+  }).toArray()
+}
+
 export async function insert(product: Product): Promise<Product> {
   const client = await MongoConnection.getClient()
   await client.collection('products').insertOne(product)

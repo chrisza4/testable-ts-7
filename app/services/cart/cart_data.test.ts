@@ -72,7 +72,6 @@ describe('ProductData', () => {
       if (!cart) {
         fail()
       }
-      // expect(cart.items.length).toEqual(1) // Only product 1 left
       const product1Item = cart.items.find(c => c.productId.equals(product1.id))
       expect(product1Item?.quantity).toEqual(1)
     })

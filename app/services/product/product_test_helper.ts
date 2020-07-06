@@ -7,6 +7,7 @@ export function generateMockProduct(props: Partial<Product> = { }): Product {
     name: 'my product',
     description: 'mock product',
     id: new MongoDb.ObjectId(),
-    unitPrice: 100
+    unitPrice: 100,
+    ...props
   }
 }

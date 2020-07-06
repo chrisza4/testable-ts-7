@@ -38,6 +38,23 @@ describe('ProductData', () => {
     expect(savedProducts.some(p => p.id.equals(products[1].id)))
   })
 
+  it('can find by ids', async () => {
+    const products = [
+      ProductTestHelper.generateMockProduct(),
+      ProductTestHelper.generateMockProduct(),
+      ProductTestHelper.generateMockProduct(),
+    ]
+    await Promise.all(products.map(
+      p => ProductData.insert(p)
+    ))
+    const savedProducts = await ProductData.findByIds([
+      products[0].id, products[1].id
+    ])
+    expect(savedProducts.length).toEqual(2)
+    expect(savedProducts.some(p => p.id.equals(products[0].id)))
+    expect(savedProducts.some(p => p.id.equals(products[1].id)))
+  })
+
   it('Can remove product', async () => {
     const sampleProduct: Product = {
       id: new MongoDb.ObjectID(),
