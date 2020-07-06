@@ -21,12 +21,11 @@ describe('getCheckoutAbleCart', () => {
       CartData.add(cart.id, product1.id),
       CartData.add(cart.id, product2.id),
     ])
-    const updatedCart = await CartData.getById(cart.id)
-    if (!updatedCart) {
-      fail()
-    }
 
-    const checkoutAbleCart = await CheckoutData.getCheckoutAbleCart(updatedCart)
+    const checkoutAbleCart = await CheckoutData.getCheckoutAbleCart(cart.id)
+    if (!checkoutAbleCart) {
+      throw new Error('Unexpected error: newly created cart not exists')
+    }
     expect(checkoutAbleCart.id.equals(cart.id)).toBeTruthy()
     expect(checkoutAbleCart.items.length).toEqual(2)
 

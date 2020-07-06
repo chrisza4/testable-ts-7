@@ -1,9 +1,14 @@
 import { CheckoutAbleCart, CheckoutItem } from './checkout_type'
-import { Cart } from '../cart/cart_type'
+import * as MongoDb from 'mongodb'
 import * as ProductData from '../product/product_data'
+import * as CartData from '../cart/cart_data'
 import { InternalDataInconsistencyError } from '../errors'
 
-export async function getCheckoutAbleCart (cart: Cart): Promise<CheckoutAbleCart> {
+export async function getCheckoutAbleCart (cartId: MongoDb.ObjectId): Promise<CheckoutAbleCart | null> {
+  const cart = await CartData.getById(cartId)
+  if (!cart) {
+    return null
+  }
   const productIds = new Set(cart.items.map(item => item.productId))
   const products = await ProductData.findByIds(Array.from(productIds))
   const checkoutAbleItems: CheckoutItem[] = cart.items.map(item => {
