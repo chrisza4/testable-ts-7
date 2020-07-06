@@ -17,6 +17,7 @@
     "@typescript-eslint/no-inferrable-types": "off",
     "@typescript-eslint/no-unused-vars": ["error", { "vars": "all", "args": "none", "ignoreRestSiblings": true }],
     "@typescript-eslint/no-use-before-define": "off",
+    "quotes": ["error", "single"],
     "no-unused-vars": "off"
   }
 }
