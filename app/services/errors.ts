@@ -4,3 +4,10 @@ export class InternalDataInconsistencyError extends Error {
     this.name = 'InternalDataInconsistencyError'
   }
 }
+
+export class InvalidLoginError extends Error {
+  constructor(message = 'InvalidLoginError') {
+    super(message)
+    this.name = 'InvalidLoginError'
+  }
+}
