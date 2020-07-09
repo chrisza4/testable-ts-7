@@ -38,3 +38,11 @@ export class NotFoundError extends Error {
     this.message = message || 'Resource not found'
   }
 }
+
+export class AuthenticationError extends Error {
+  constructor(message?: string) {
+    super(message)
+    this.name = 'AuthenticationError'
+    this.message = message || 'Invalid authentication'
+  }
+}

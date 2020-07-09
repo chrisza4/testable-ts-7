@@ -52,4 +52,32 @@ describe('login', () => {
       expect(err.name).toEqual('InvalidLoginError')
     }
   })
+
+  it('set token once login success', async () => {
+    mockUserData.setToken.mockReset()
+    const user = UserTestHelper.generateMockUser()
+    mockUserData.getByEmail.mockImplementation(async (email) => {
+      if (email !== user.email) {
+        throw new Error('Email invalid')
+      }
+      return user
+    })
+    mockUserData.setToken.mockResolvedValue(true)
+    mockUserDomain.validatePassword.mockReturnValue(true)
+
+    const loginResult = await UserService.login(user.email, 'p')
+    expect(loginResult.id.equals(user.id)).toBeTruthy()
+    expect(mockUserData.setToken.mock.calls.length).toEqual(1)
+    const token = mockUserData.setToken.mock.calls[0][1]
+    expect(loginResult.token).toEqual(token)
+  })
+})
+
+describe('getByToken', () => {
+  it('should be able to get user by token', async () => {
+    const user = UserTestHelper.generateMockUser()
+    mockUserData.getByToken.mockResolvedValue(user)
+    const actual = await UserService.getByToken('token1')
+    expect(actual?.id.equals(user.id)).toBeTruthy()
+  })
 })
