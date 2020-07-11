@@ -2,12 +2,13 @@ import * as MongoDb from 'mongodb'
 import * as MongoConnection from '../connections/mongodb'
 import { Cart, CartItem } from './cart_type'
 import { MongoIdParams } from '../types'
+import * as IdHelper from '../../helpers/id_helper'
 
 export async function create (now = new Date()): Promise<Cart> {
   const mongoConnection = await MongoConnection.getClient()
   const cart: Cart = {
     id: new MongoDb.ObjectId(),
-    hash: String(new MongoDb.ObjectId()),
+    hash: IdHelper.generateRandomId(),
     created: now,
     items: []
   }
