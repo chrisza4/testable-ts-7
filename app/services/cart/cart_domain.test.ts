@@ -1,6 +1,5 @@
 import * as CartDomain from './cart_domain'
 import * as CartTestHelper from './cart_test_helper'
-import * as ProductTestHelper from '../product/product_test_helper'
 
 describe('canAdd', () => {
   it('can add product into cart if cart is not older than 3 months', () => {
@@ -9,8 +8,7 @@ describe('canAdd', () => {
     const cart = CartTestHelper.generateMockCart({
       created: threeMonthsAgo
     })
-    const product = ProductTestHelper.generateMockProduct()
-    const allowAdd = CartDomain.canAdd(cart, product, now)
+    const allowAdd = CartDomain.canAdd(cart, now)
     expect(allowAdd).toBeTruthy()
   })
 
@@ -20,8 +18,7 @@ describe('canAdd', () => {
     const cart = CartTestHelper.generateMockCart({
       created
     })
-    const product = ProductTestHelper.generateMockProduct()
-    const allowAdd = CartDomain.canAdd(cart, product, now)
+    const allowAdd = CartDomain.canAdd(cart, now)
     expect(allowAdd).toBeFalsy()
   })
 })

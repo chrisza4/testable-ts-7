@@ -1,5 +1,6 @@
 import { Cart } from './cart_type'
 import * as CartData from './cart_data'
+import * as CartDomain from './cart_domain'
 import { MongoIdParams } from '../types'
 
 export async function create (): Promise<Cart> {
@@ -7,6 +8,13 @@ export async function create (): Promise<Cart> {
 }
 
 export async function add (cartId: MongoIdParams, productId: MongoIdParams): Promise<Cart | null> {
+  const cart = await CartData.getById(cartId)
+  if (!cart) {
+    return null
+  }
+  if (!CartDomain.canAdd(cart)) {
+    return null
+  }
   return CartData.add(cartId, productId)
 }
 
