@@ -35,11 +35,11 @@ describe('ProductData', () => {
 
   describe('add', () => {
     let cart1: Cart
-    let product1: Product
-    let product2: Product
+    let milk: Product
+    let soySauce: Product
 
     beforeEach(async () => {
-      [cart1, product1, product2] = await Promise.all([
+      [cart1, milk, soySauce] = await Promise.all([
         CartData.create(),
         ProductData.insert(ProductTestHelper.generateMockProduct({ name: 'milk' })),
         ProductData.insert(ProductTestHelper.generateMockProduct({ name: 'soy sauce'}))
@@ -47,32 +47,33 @@ describe('ProductData', () => {
     })
 
     it('Should be able to add product', async () => {
-      await CartData.add(cart1.id, product1.id)
-      await CartData.add(cart1.id, product1.id)
-      await CartData.add(cart1.id, product2.id)
+      await CartData.add(cart1.id, milk.id)
+      await CartData.add(cart1.id, milk.id)
+      await CartData.add(cart1.id, soySauce.id)
       const cart = await CartData.getById(cart1.id)
       if (!cart) {
         fail()
       }
       expect(cart.items.length).toEqual(2)
-      const product1Item = cart.items.find(c => c.productId.equals(product1.id))
-      const product2Item = cart.items.find(c => c.productId.equals(product2.id))
+      const product1Item = cart.items.find(c => c.productId.equals(milk.id))
+      const product2Item = cart.items.find(c => c.productId.equals(soySauce.id))
       expect(product1Item?.quantity).toEqual(2)
       expect(product2Item?.quantity).toEqual(1)
     })
 
     it('should be able to remove product', async () => {
-      await CartData.add(cart1.id, product1.id)
-      await CartData.add(cart1.id, product1.id)
-      await CartData.add(cart1.id, product2.id)
+      await CartData.add(cart1.id, milk.id)
+      await CartData.add(cart1.id, milk.id)
+      await CartData.add(cart1.id, soySauce.id)
 
-      await CartData.remove(cart1.id, product1.id)
-      await CartData.remove(cart1.id, product2.id)
+      await CartData.remove(cart1.id, milk.id)
+      await CartData.remove(cart1.id, soySauce.id)
       const cart = await CartData.getById(cart1.id)
       if (!cart) {
         fail()
       }
-      const product1Item = cart.items.find(c => c.productId.equals(product1.id))
+      expect(cart.items.length).toEqual(1)
+      const product1Item = cart.items.find(c => c.productId.equals(milk.id))
       expect(product1Item?.quantity).toEqual(1)
     })
   })

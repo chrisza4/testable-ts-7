@@ -22,7 +22,7 @@ describe('checkoutByCartId', () => {
     expect(mockCheckoutDomain.calculatePrice.mock.calls[0][0]).toEqual(mockedCart)
   })
 
-  it('Throw NotFound error for invalid id', async () => {
+  it('Return null if cart not found', async () => {
     const mockCheckoutData = mocked(CheckoutData)
     mockCheckoutData.getCheckoutAbleCart.mockResolvedValue(null)
     expect(await CheckoutService.checkoutById(new MongoDb.ObjectID)).toBeNull()
