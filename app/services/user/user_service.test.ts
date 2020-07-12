@@ -25,7 +25,7 @@ describe('login', () => {
     expect(loginResult.id.equals(user.id)).toBeTruthy()
   })
 
-  it('cannot login if username is not exists in database', async () => {
+  it('cannot login if email is not exists in database', async () => {
     mockUserData.getByEmail.mockResolvedValue(null)
     try {
       await UserService.login('email@email', 'p')

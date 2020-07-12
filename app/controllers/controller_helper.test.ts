@@ -119,12 +119,14 @@ describe('createExpressHandler', () => {
       })
       mocked(UserService).getByToken.mockResolvedValue(user)
       const handler = ControllerHelper.createExpressHandler(controller, { requiredAuth: false })
+
       const app = Express()
       app.use(Express.json())
       app.get('/', handler)
       const response = await Supertest(app).get('/').set({
         'Authorization': 'Bearer token-x'
       })
+
       expect(response.body).toEqual({ message: 'Hello chakrit.lj@gmail.com' })
     })
 
@@ -137,7 +139,9 @@ describe('createExpressHandler', () => {
           message: 'Haha'
         }
       }
+
       const handler = ControllerHelper.createExpressHandler(controller, { requiredAuth: false })
+
       const app = Express()
       app.use(Express.json())
       app.get('/', handler)
@@ -154,12 +158,14 @@ describe('createExpressHandler', () => {
         }
       }
       const handler = ControllerHelper.createExpressHandler(controller, { requiredAuth: true })
+
       const app = Express()
       app.use(Express.json())
       app.get('/', handler)
       const response = await Supertest(app).get('/').set({
         'Authorization': 'JSON Y'
       })
+
       expect(response.status).toEqual(401)
       expect(response.body).toEqual({
         statusCode: 401,
